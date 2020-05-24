@@ -1,0 +1,17 @@
+{
+  "name": "vue3-vite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.0-beta.14",
+    "vite": "^0.16.10"
+  },
+  "dependencies": {
+    "vue": "^3.0.0-beta.14"
+  }
+}
