@@ -2,7 +2,6 @@ import { createServer } from "vite";
 import Koa from "koa";
 import mount from "koa-mount";
 import api from "./api.js";
-import os from "os";
 
 function apiPlugin({
   root, // project root directory, absolute path
