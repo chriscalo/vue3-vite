@@ -2,6 +2,7 @@ import { createServer } from "vite";
 import Koa from "koa";
 import koaMount from "koa-mount";
 import koaStatic from "koa-static";
+import koaSendfile from "koa-sendfile";
 import api from "./api.js";
 
 const PORT = process.env.PORT || 8080;
@@ -23,6 +24,7 @@ switch (process.env.NODE_ENV) {
     const app = new Koa();
     app.use(koaStatic("dist"));
     app.use(koaMount("/api", api));
+    app.use(catchAll);
     app.listen(PORT, () => {
       console.log();
       console.log(`Prod server running at:`);
@@ -45,4 +47,8 @@ function apiPlugin({
   watcher, // chokidar file watcher instance
 }) {
   app.use(koaMount("/api", api));
+}
+
+async function catchAll(ctx, next) {
+  await koaSendfile(ctx, "./dist/index.html");
 }
