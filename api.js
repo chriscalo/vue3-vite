@@ -1,4 +1,4 @@
-const Koa = require("koa");
+import Koa from "koa";
 
 const api = new Koa();
 
@@ -9,4 +9,4 @@ api.use(async ctx => {
   };
 });
 
-module.exports = api;
+export default api;
