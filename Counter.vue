@@ -11,3 +11,10 @@
     },
   };
 </script>
+
+<style lang="scss">
+  button {
+    border-radius: 4px;
+    height: 32px;
+  }
+</style>
