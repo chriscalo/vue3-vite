@@ -28,6 +28,7 @@ switch (process.env.NODE_ENV) {
   
   case "production": {
     server.use(express.static("dist"));
+    // FIXME: use path.join(__dirname, "../dist/index.js");
     server.use(fallback(`${__dirname}/dist/index.html`));
     break;
   }
