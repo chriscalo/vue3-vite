@@ -2,7 +2,7 @@
   "name": "vue3-vite",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "dev": "NODE_ENV=development node -r esm server/index.js",
     "build": "vite build",
