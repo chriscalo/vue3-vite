@@ -1,4 +1,4 @@
-import path from "path";
+import { resolve } from "path";
 import { createServer as createViteDevServer } from "vite";
 import express from "express";
 import fallback from "express-history-api-fallback";
@@ -41,8 +41,8 @@ async function proxyViteDevServer(server) {
 }
 
 function prodStaticFiles(server) {
-  const distDir = path.resolve(__dirname, "../dist");
-  const htmlEntryPoint = path.resolve(distDir, "./index.html");
+  const distDir = resolve(__dirname, "../dist");
+  const htmlEntryPoint = resolve(distDir, "./index.html");
   
   server.use(express.static(distDir));
   server.use(fallback(htmlEntryPoint));
