@@ -3,20 +3,19 @@ import { createServer as createViteDevServer } from "vite";
 import express from "express";
 import fallback from "express-history-api-fallback";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { findPort } from "express-start/find-port";
 
 const PORT = process.env.PORT || 8080;
-// FIXME: find available port
-const VITE_DEV_SERVER_PORT = PORT + 1;
 
 const server = express();
 
 switch (process.env.NODE_ENV) {
   case "development": {
-    server.use(dev(VITE_DEV_SERVER_PORT));
+    proxyViteDevServer(server);
     break;
   }
   case "production": {
-    server.use(prod());
+    prodStaticFiles(server);
     break;
   }
   default: {
@@ -25,8 +24,8 @@ switch (process.env.NODE_ENV) {
   }
 }
 
-function dev(port = 3000) {
-  const server = express();
+async function proxyViteDevServer(server) {
+  const port = await findPort(PORT + 1);
   const VITE_DEV_SERVER_ADDR = `http://localhost:${port}`;
   
   createViteDevServer().listen(port, () => {
@@ -35,24 +34,18 @@ function dev(port = 3000) {
     console.log(VITE_DEV_SERVER_ADDR);
     console.log();
   });
-  
   server.use(createProxyMiddleware({
     target: VITE_DEV_SERVER_ADDR,
     ws: true,
   }));
-  
-  return server;
 }
 
-function prod() {
-  const server = express();
-  const distDir = path.resolve("dist");
-  const htmlEntry = path.resolve(distDir, "./index.html");
+function prodStaticFiles(server) {
+  const distDir = path.resolve(__dirname, "../dist");
+  const htmlEntryPoint = path.resolve(distDir, "./index.html");
   
   server.use(express.static(distDir));
-  server.use(fallback(htmlEntry));
-  
-  return server;
+  server.use(fallback(htmlEntryPoint));
 }
 
 export default server;
